@@ -1,0 +1,71 @@
+.mainBody {
+    padding: 2rem 10rem;
+}
+
+::ng-deep .mat-mdc-form-field {
+    max-width: 40rem;
+    min-width: 10rem;
+    width: -webkit-fill-available;
+}
+
+.loader-btn {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.generated-text {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.generated-text h4 {
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.post {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post p {
+    font-size: 16px;
+    color: #555;
+}
+
+.carousel {
+    max-width: 300px;
+    /* Adjust the width of the carousel */
+    margin: 0 auto;
+    /* Center the carousel */
+}
+
+.carousel-image,
+.single-image {
+    max-width: 100%;
+    /* Make the image take the full width of the carousel */
+    max-height: 200px;
+    /* Set a maximum height */
+    object-fit: contain;
+    /* Ensures the image covers the area without distortion */
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.single-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.download-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}

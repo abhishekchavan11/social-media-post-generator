@@ -1,0 +1,44 @@
+
+<div class="mainBody">
+    <h2>Welcome to Social Media Post Generator</h2>
+    <h3>The app generates social media posts based on an event description using AI models.</h3>
+    <div>
+        <form class="formClass" [formGroup]="myForm"  #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)">
+            <mat-form-field appearance="outline">
+                <mat-label for="myInput">Enter your query</mat-label>
+                <!-- <input matInput id="myInput" formControlName="query"> -->
+                <textarea matInput id="myInput" formControlName="query"></textarea>
+            </mat-form-field>
+            <br>
+            <div class="loader-btn">
+              <button type="submit" mat-raised-button [disabled]="!myForm.valid || submitFlag">Get Answer</button>
+              <mat-spinner *ngIf="loaderFlag" style="height: 30px;width: 30px;"></mat-spinner>
+            </div>
+        </form>
+    </div>
+    <br>
+    <!-- <div class="generated-text">
+        <div *ngFor="let post of approvedPosts" class="post">
+          <h4>Platform : {{ post.platform }}</h4>
+          <p>{{ post.post }}</p>
+          <div *ngFor="let image of post.images">
+            <img [src]="'data:image/jpeg;base64,' + image" alt="Post Image">
+          </div>
+        </div>
+      </div> -->
+      <div class="generated-text">
+        <div *ngFor="let post of approvedPosts" class="post">
+        <mat-icon class="download-icon" matTooltip="Download post" (click)="downloadPost(post)">download</mat-icon>
+          <h4>Platform : {{ post.platform }}</h4>
+          <p>{{ post.post }}</p>
+          <owl-carousel-o *ngIf="post.images.length > 1" [options]="customOptions" class="carousel">
+            <ng-template carouselSlide *ngFor="let image of post.images">
+              <img [src]="'data:image/jpeg;base64,' + image" alt="Post Image" class="carousel-image">
+            </ng-template>
+          </owl-carousel-o>
+          <div *ngIf="post.images.length === 1" class="single-image-container">
+            <img [src]="'data:image/jpeg;base64,' + post.images[0]" alt="Post Image" class="single-image">
+          </div>
+        </div>
+      </div>
+</div>
