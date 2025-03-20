@@ -6,15 +6,15 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class PromptService {
-  private apiUrl = '';
+  private apiUrl = 'http://52.4.250.105:8000';
 
   constructor(private http: HttpClient) { }
 
-  getAnswers(prompt : {query : string}) : Observable<any>{
-    const formData: FormData = new FormData();
-    formData.append('prompt', prompt.query);
+  getAnswers(prompt : object) : Observable<any>{
+    // const formData: FormData = new FormData();
+    // formData.append('prompt', prompt.query);
 
-    return this.http.post(`${this.apiUrl}/process`, formData).pipe(
+    return this.http.post(`${this.apiUrl}/generate-posts`, prompt).pipe(
       tap((response : any) => {
         console.log('Prompt response:', response);
       })

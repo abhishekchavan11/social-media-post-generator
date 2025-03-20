@@ -16,7 +16,7 @@
 
 .generated-text {
     margin-top: 20px;
-    text-align: center;
+    // text-align: center;
 }
 
 .generated-text h4 {
@@ -49,7 +49,7 @@
 .single-image {
     max-width: 100%;
     /* Make the image take the full width of the carousel */
-    max-height: 200px;
+    max-height: 250px;
     /* Set a maximum height */
     object-fit: contain;
     /* Ensures the image covers the area without distortion */

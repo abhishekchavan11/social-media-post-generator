@@ -1,11 +1,11 @@
 
 <div class="mainBody">
-    <h2>Welcome to Social Media Post Generator</h2>
-    <h3>The app generates social media posts based on an event description using AI models.</h3>
+    <h2 style="color: #07125e !important;">Welcome to Social Media Post Generator</h2>
+    <h3 style="color: #007bff !important; margin-bottom: 6px;">Enter your prompt!!</h3>
     <div>
         <form class="formClass" [formGroup]="myForm"  #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)">
             <mat-form-field appearance="outline">
-                <mat-label for="myInput">Enter your query</mat-label>
+                <!-- <mat-label for="myInput">Enter query</mat-label> -->
                 <!-- <input matInput id="myInput" formControlName="query"> -->
                 <textarea matInput id="myInput" formControlName="query"></textarea>
             </mat-form-field>
@@ -30,7 +30,9 @@
         <div *ngFor="let post of approvedPosts" class="post">
         <mat-icon class="download-icon" matTooltip="Download post" (click)="downloadPost(post)">download</mat-icon>
           <h4>Platform : {{ post.platform }}</h4>
-          <p>{{ post.post }}</p>
+          <!-- <p>{{ post.post }}</p> -->
+          <!-- <p *ngFor="let text of post.post">{{ text }}</p> -->
+          <div style="color: #07125e !important;" *ngFor="let text of post.post" [innerHTML]="formatPostText(text)"></div>
           <owl-carousel-o *ngIf="post.images.length > 1" [options]="customOptions" class="carousel">
             <ng-template carouselSlide *ngFor="let image of post.images">
               <img [src]="'data:image/jpeg;base64,' + image" alt="Post Image" class="carousel-image">
