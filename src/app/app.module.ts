@@ -15,7 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTabsModule} from '@angular/material/tabs';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 
 @NgModule({
@@ -30,7 +30,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     ReactiveFormsModule,
     HttpClientModule,
     CarouselModule,
-    MatTabsModule,
+    MatTabsModule,MatSnackBarModule,
     MatInputModule,MatFormFieldModule,MatProgressSpinnerModule,MatButtonModule, MatIconModule,MatToolbarModule,MatTooltipModule
   ],
   providers: [],

@@ -35,58 +35,67 @@
     <div class="generated-text" *ngIf="approvedPosts.length > 0">
         <mat-tab-group [backgroundColor]="'primary'" [color]="'accent'">
             <mat-tab label="Posts">
-                <div *ngFor="let post of approvedPosts" class="post">
+                <div *ngFor="let post of filteredData" class="post">
                     <ng-container *ngIf="post.platform !== 'Email' && post.platform !== 'Blog'">
-                    <mat-icon class="download-icon" matTooltip="Download post" (click)="downloadPost(post)">download</mat-icon>
-                    <h4>Platform : {{ post.platform }}</h4>
-                    <div style="color: #07125e !important;" *ngFor="let text of post.post" [innerHTML]="formatPostText(text)">
-                    </div>
-                    <owl-carousel-o *ngIf="post.images.length > 1" [options]="customOptions" class="carousel">
-                        <ng-template carouselSlide *ngFor="let image of post.images">
-                            <img [src]="'data:image/jpeg;base64,' + image" alt="Post Image" class="carousel-image">
-                        </ng-template>
-                    </owl-carousel-o>
-                    <div *ngIf="post.images.length === 1" class="single-image-container">
-                        <img [src]="'data:image/jpeg;base64,' + post.images[0]" alt="Post Image" class="single-image">
-                    </div>
-                </ng-container>
-            </div>
+                        <mat-icon class="download-icon" matTooltip="Download post"
+                            (click)="downloadPost(post)">download</mat-icon>
+                        <h4>Platform : {{ post.platform }}</h4>
+                        <div style="color: #07125e !important;" *ngFor="let text of post.post"
+                            [innerHTML]="formatPostText(text)">
+                        </div>
+                        <owl-carousel-o *ngIf="post.images.length > 1" [options]="customOptions" class="carousel">
+                            <ng-template carouselSlide *ngFor="let image of post.images">
+                                <img [src]="'data:image/jpeg;base64,' + image" alt="Post Image" class="carousel-image">
+                            </ng-template>
+                        </owl-carousel-o>
+                        <div *ngIf="post.images.length === 1" class="single-image-container">
+                            <img [src]="'data:image/jpeg;base64,' + post.images[0]" alt="Post Image"
+                                class="single-image">
+                        </div>
+                    </ng-container>
+                </div>
             </mat-tab>
             <mat-tab label="Emailer">
-                <div *ngFor="let post of approvedPosts" class="post">
+                <div *ngFor="let post of emailOnly" class="post">
                     <ng-container *ngIf="post.platform === 'Email'">
-                    <mat-icon class="download-icon" matTooltip="Download post" (click)="downloadPost(post)">download</mat-icon>
-                    <h4>Platform : {{ post.platform }}</h4>
-                    <div style="color: #07125e !important;" *ngFor="let text of post.post" [innerHTML]="formatPostText(text)">
-                    </div>
-                    <owl-carousel-o *ngIf="post.images.length > 1" [options]="customOptions" class="carousel">
-                        <ng-template carouselSlide *ngFor="let image of post.images">
-                            <img [src]="'data:image/jpeg;base64,' + image" alt="Post Image" class="carousel-image">
-                        </ng-template>
-                    </owl-carousel-o>
-                    <div *ngIf="post.images.length === 1" class="single-image-container">
-                        <img [src]="'data:image/jpeg;base64,' + post.images[0]" alt="Post Image" class="single-image">
-                    </div>
-                </ng-container>
-            </div>
+                        <mat-icon class="download-icon" matTooltip="Download post"
+                            (click)="downloadPost(post)">download</mat-icon>
+                        <h4>Platform : {{ post.platform }}</h4>
+                        <div style="color: #07125e !important;" *ngFor="let text of post.post"
+                            [innerHTML]="formatPostText(text)">
+                        </div>
+                        <owl-carousel-o *ngIf="post.images.length > 1" [options]="customOptions" class="carousel">
+                            <ng-template carouselSlide *ngFor="let image of post.images">
+                                <img [src]="'data:image/jpeg;base64,' + image" alt="Post Image" class="carousel-image">
+                            </ng-template>
+                        </owl-carousel-o>
+                        <div *ngIf="post.images.length === 1" class="single-image-container">
+                            <img [src]="'data:image/jpeg;base64,' + post.images[0]" alt="Post Image"
+                                class="single-image">
+                        </div>
+                    </ng-container>
+                </div>
             </mat-tab>
             <mat-tab label="Blogs">
-                <div *ngFor="let post of approvedPosts" class="post">
-                <ng-container *ngIf="post.platform === 'Blog'">
-                    <mat-icon class="download-icon" matTooltip="Download post" (click)="downloadPost(post)">download</mat-icon>
-                    <h4>Platform : {{ post.platform }}</h4>
-                    <div style="color: #07125e !important;" *ngFor="let text of post.post" [innerHTML]="formatPostText(text)">
-                    </div>
-                    <owl-carousel-o *ngIf="post.images.length > 1" [options]="customOptions" class="carousel">
-                        <ng-template carouselSlide *ngFor="let image of post.images">
-                            <img [src]="'data:image/jpeg;base64,' + image" alt="Post Image" class="carousel-image">
-                        </ng-template>
-                    </owl-carousel-o>
-                    <div *ngIf="post.images.length === 1" class="single-image-container">
-                        <img [src]="'data:image/jpeg;base64,' + post.images[0]" alt="Post Image" class="single-image">
-                    </div>
-                </ng-container>
-            </div>
+                <div *ngFor="let post of blogOnly" class="post">
+                    <ng-container *ngIf="post.platform === 'Blog'">
+                        <mat-icon class="download-icon" matTooltip="Download post"
+                            (click)="downloadPost(post)">download</mat-icon>
+                        <h4>Platform : {{ post.platform }}</h4>
+                        <div style="color: #07125e !important;" *ngFor="let text of post.post"
+                            [innerHTML]="formatPostText(text)">
+                        </div>
+                        <owl-carousel-o *ngIf="post.images.length > 1" [options]="customOptions" class="carousel">
+                            <ng-template carouselSlide *ngFor="let image of post.images">
+                                <img [src]="'data:image/jpeg;base64,' + image" alt="Post Image" class="carousel-image">
+                            </ng-template>
+                        </owl-carousel-o>
+                        <div *ngIf="post.images.length === 1" class="single-image-container">
+                            <img [src]="'data:image/jpeg;base64,' + post.images[0]" alt="Post Image"
+                                class="single-image">
+                        </div>
+                    </ng-container>
+                </div>
             </mat-tab>
         </mat-tab-group>
     </div>

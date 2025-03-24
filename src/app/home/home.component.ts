@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular
 import { PromptService } from '../service/prompt.service';
 import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -39,14 +40,17 @@ export class HomeComponent implements OnInit {
     nav: true
   };
   posts: any = {};
-  constructor(private fb: FormBuilder, private service: PromptService) {
+  filteredData: any
+  blogOnly: any
+  emailOnly: any
+  constructor(private fb: FormBuilder, private service: PromptService,private _snackBar: MatSnackBar) {
     this.myForm = this.fb.group({
       query: ['', [Validators.required]]
     });
   }
 
   ngOnInit(): void {
-   
+
   }
 
   onSubmit(formDirective: FormGroupDirective) {
@@ -54,22 +58,36 @@ export class HomeComponent implements OnInit {
     this.loaderFlag = true;
     this.approvedPosts = [];
     this.service.getAnswers(this.myForm.value).subscribe((res) => {
-      console.log("res--", res);
-      this.approvedPosts  = res.approved_posts;
+      // console.log("res--", res);
+      this.approvedPosts = res.approved_posts;
       this.submitFlag = false;
       this.loaderFlag = false;
-      formDirective.resetForm();  // Clears the <mat-error> messages
+      console.log(this.approvedPosts)
+      this.filteredData = this.filterByPlatform(this.approvedPosts, ["X", "Instagram", "Facebook", "LinkedIn"]);
+      formDirective.resetForm();
+      this.emailOnly = this.filterByPlatform(this.approvedPosts, ["Email"]);
+      this.blogOnly = this.filterByPlatform(this.approvedPosts, ["Blog"]);
       this.myForm.reset();
+      this._snackBar.open(`${res.total_approved_posts}  posts generated successfully`, '', {
+        duration: 5000,
+      });
     },
       (error) => {
         console.error('Get answer failed', error);
         this.approvedPosts = []
         this.submitFlag = false;
-        this.loaderFlag = false; 
-        formDirective.resetForm();  // Clears the <mat-error> messages
-        this.myForm.reset(); 
+        this.loaderFlag = false;
+        formDirective.resetForm();
+        this.myForm.reset();
+        this._snackBar.open('Posts generation failed', '', {
+          duration: 5000,
+        });
       }
     )
+  }
+
+  filterByPlatform(data: any, platformsToInclude: any) {
+    return data.filter((post: any) => platformsToInclude.includes(post.platform));
   }
 
   // downloadPost(post: any) {
@@ -93,30 +111,28 @@ export class HomeComponent implements OnInit {
 
   downloadPost(post: any) {
     const zip = new JSZip();
-  
     // Add the text content to the zip file
     const postText = post.post.join('\n').replace(/\/\*.*?\*\//g, '').replace(/\n/g, '\n');
     zip.file('post.txt', postText);
-  
     // Process images
     post.images.forEach((image: string, index: number) => {
-      try {  
+      try {
         // Convert base64 to binary data
         const binaryData = atob(image);
-  
+
         // Create a Uint8Array for the binary data
         const byteArray = new Uint8Array(binaryData.length);
         for (let i = 0; i < binaryData.length; i++) {
           byteArray[i] = binaryData.charCodeAt(i);
         }
-  
+
         // Add the image to the zip file
         zip.file(`image_${index + 1}.jpg`, byteArray, { binary: true });
-      } catch (error : any) {
+      } catch (error: any) {
         console.error(`Error processing image at index ${index}:`, error.message);
       }
     });
-  
+
     // Generate the zip file and trigger download
     zip.generateAsync({ type: 'blob' }).then((content) => {
       saveAs(content, 'post.zip');
