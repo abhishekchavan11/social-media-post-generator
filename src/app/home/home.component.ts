@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
+  prompt: string = '';
   myForm!: FormGroup;
   loaderFlag: boolean = false;
   submitFlag !: boolean;
@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
   filteredData: any
   blogOnly: any
   emailOnly: any
-  constructor(private fb: FormBuilder, private service: PromptService,private _snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private service: PromptService, private _snackBar: MatSnackBar) {
     this.myForm = this.fb.group({
       query: ['', [Validators.required]]
     });
@@ -57,8 +57,10 @@ export class HomeComponent implements OnInit {
     this.submitFlag = true;
     this.loaderFlag = true;
     this.approvedPosts = [];
+    this.prompt = "";
     this.service.getAnswers(this.myForm.value).subscribe((res) => {
       // console.log("res--", res);
+      this.prompt = this.myForm.get('query')?.value
       this.approvedPosts = res.approved_posts;
       this.submitFlag = false;
       this.loaderFlag = false;
@@ -68,7 +70,7 @@ export class HomeComponent implements OnInit {
       this.emailOnly = this.filterByPlatform(this.approvedPosts, ["Email"]);
       this.blogOnly = this.filterByPlatform(this.approvedPosts, ["Blog"]);
       this.myForm.reset();
-      this._snackBar.open(`${res.total_approved_posts}  posts generated successfully`, '', {
+      this._snackBar.open(`${res.total_approved_posts}  posts generated successfully`, 'Close', {
         duration: 5000,
       });
     },
@@ -79,7 +81,7 @@ export class HomeComponent implements OnInit {
         this.loaderFlag = false;
         formDirective.resetForm();
         this.myForm.reset();
-        this._snackBar.open('Posts generation failed', '', {
+        this._snackBar.open('Posts generation failed', 'Close', {
           duration: 5000,
         });
       }
@@ -139,7 +141,14 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  // formatPostText(text: string): string {
+  //   return text.replace(/\*\*/g, '').replace(/\n/g, '<br>');
+  // }
+
   formatPostText(text: string): string {
-    return text.replace(/\*\*/g, '').replace(/\n/g, '<br>');
+    // Replace Unicode placeholders and newlines with appropriate HTML
+    return text
+      .replace(/u{2019}/g, "'") // Replace Unicode apostrophe
+      // .replace(/\*\*/g, '').replace(/\n/g, '<br>'); // Replace newline characters with <br>
   }
 }

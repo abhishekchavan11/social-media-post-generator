@@ -78,23 +78,58 @@
     border-radius: 5px;
     width: 39rem;
     transition: all .3s ease-in;
+    overflow: hidden;
+    /* Ensure the text doesn't overflow during the animation */
 }
 
 .line {
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-    animation-delay: calc(var(--line-index) * 2s);
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    /* Start with width 0 to hide the text initially */
+    // border-right: 2px solid #00ff00;
+    /* Optional: blinking cursor effect */
+    animation: typing 15s steps(30, end), blink-caret 0.5s step-end infinite;
+    animation-delay: calc(var(--line-index) * 15s);
+    /* Delay for each line */
+    animation-fill-mode: forwards;
+    /* Ensure the animation stays in its final state */
 }
 
-.line:nth-child(1) { --line-index: 1; }
-.line:nth-child(2) { --line-index: 2; }
-.line:nth-child(3) { --line-index: 3; }
-.line:nth-child(4) { --line-index: 4; }
-.line:nth-child(5) { --line-index: 5; }
+.line:nth-child(1) {
+    --line-index: 0;
+}
 
-@keyframes fadeIn {
+.line:nth-child(2) {
+    --line-index: 1;
+}
+
+.line:nth-child(3) {
+    --line-index: 2;
+}
+
+.line:nth-child(4) {
+    --line-index: 3;
+}
+
+.line:nth-child(5) {
+    --line-index: 4;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
     to {
-        opacity: 1;
+        width: 100%;
+    }
+}
+
+@keyframes blink-caret {
+    50% {
+        border-color: transparent;
     }
 }
 
@@ -104,16 +139,26 @@
 }
 
 @keyframes dots {
-    0%, 20% {
+
+    0%,
+    20% {
         content: '';
     }
+
     40% {
         content: '.';
     }
+
     60% {
         content: '..';
     }
-    80%, 100% {
+
+    80%,
+    100% {
         content: '...';
     }
+}
+
+.post-content {
+    color: #07125e !important;
 }

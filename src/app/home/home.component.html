@@ -10,7 +10,7 @@
             </mat-form-field>
             <br>
             <div class="loader-btn">
-                <button type="submit" mat-raised-button [disabled]="!myForm.valid || submitFlag">Get Answer</button>
+                <button type="submit" mat-raised-button [disabled]="!myForm.valid || submitFlag">Get Posts</button>
                 <!-- <mat-spinner *ngIf="loaderFlag" style="height: 30px;width: 30px;"></mat-spinner> -->
             </div>
         </form>
@@ -25,22 +25,26 @@
           </div>
         </div>
       </div> -->
-    <div class="loading-message techno-style" *ngIf="loaderFlag">
-        <p class="line">Processing your request<span class="dots">...</span></p>
-        <p class="line">Analyzing data<span class="dots">...</span></p>
-        <p class="line">Generating insights<span class="dots">...</span></p>
-        <p class="line">Almost there<span class="dots">...</span></p>
-        <p class="line">Please wait while the AI works its magic!!</p>
+      <div class="loading-message techno-style" *ngIf="loaderFlag"> 
+        <p class="line">Processing your request<span class="dots">...</span></p> 
+        <p class="line">Analyzing data<span class="dots">...</span></p> 
+        <p class="line">Generating insights<span class="dots">...</span></p> 
+        <p class="line">Crafting your perfect response<span class="dots">...</span></p> 
+        <!-- <p class="line">Almost there<span class="dots">...</span></p>  -->
+        <p class="line">Please wait while the AI works its magic<span class="dots">...</span></p> 
     </div>
+    <div class="prompt-display" *ngIf="approvedPosts.length > 0">
+        <p style="color: #07125e !important;"><strong>Prompt</strong>  : {{prompt}}</p>
+    </div>   
     <div class="generated-text" *ngIf="approvedPosts.length > 0">
-        <mat-tab-group [backgroundColor]="'primary'" [color]="'accent'">
+        <mat-tab-group>
             <mat-tab label="Posts">
                 <div *ngFor="let post of filteredData" class="post">
                     <ng-container *ngIf="post.platform !== 'Email' && post.platform !== 'Blog'">
                         <mat-icon class="download-icon" matTooltip="Download post"
                             (click)="downloadPost(post)">download</mat-icon>
                         <h4>Platform : {{ post.platform }}</h4>
-                        <div style="color: #07125e !important;" *ngFor="let text of post.post"
+                        <div class="post-content" *ngFor="let text of post.post"
                             [innerHTML]="formatPostText(text)">
                         </div>
                         <owl-carousel-o *ngIf="post.images.length > 1" [options]="customOptions" class="carousel">
@@ -61,7 +65,7 @@
                         <mat-icon class="download-icon" matTooltip="Download post"
                             (click)="downloadPost(post)">download</mat-icon>
                         <h4>Platform : {{ post.platform }}</h4>
-                        <div style="color: #07125e !important;" *ngFor="let text of post.post"
+                        <div class="post-content" *ngFor="let text of post.post"
                             [innerHTML]="formatPostText(text)">
                         </div>
                         <owl-carousel-o *ngIf="post.images.length > 1" [options]="customOptions" class="carousel">
@@ -82,7 +86,7 @@
                         <mat-icon class="download-icon" matTooltip="Download post"
                             (click)="downloadPost(post)">download</mat-icon>
                         <h4>Platform : {{ post.platform }}</h4>
-                        <div style="color: #07125e !important;" *ngFor="let text of post.post"
+                        <div class="post-content" *ngFor="let text of post.post"
                             [innerHTML]="formatPostText(text)">
                         </div>
                         <owl-carousel-o *ngIf="post.images.length > 1" [options]="customOptions" class="carousel">
